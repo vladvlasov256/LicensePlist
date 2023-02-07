@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "LicensePlist",
     products: [
-        .executable(name: "license-plist", targets: ["LicensePlist"]),
+        .executable(name: "LicensePlist", targets: ["LicensePlist"]),
         .library(name: "LicensePlistCore", targets: ["LicensePlistCore"]),
         .plugin(name: "LicensePlistBuildTool", targets: ["LicensePlistBuildTool"])
     ],
