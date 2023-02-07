@@ -28,6 +28,7 @@ import XcodeProjectPlugin
 extension LicensePlistBuildTool: XcodeBuildToolPlugin {
     func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
         let tool = try context.tool(named: "LicensePlist")
+        print("ℹ️ LicensePist path: \(tool.path)")
         return [
             .prebuildCommand(displayName: "LicensePlist is processing licenses...",
                              executable: tool.path,
