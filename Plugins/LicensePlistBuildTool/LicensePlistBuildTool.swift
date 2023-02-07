@@ -30,10 +30,13 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         let tool = try context.tool(named: "LicensePlist")
         print("ℹ️ LicensePist path: \(tool.path)")
         return [
-            .prebuildCommand(displayName: "LicensePlist is processing licenses...",
-                             executable: tool.path,
-                             arguments: [],
-                             outputFilesDirectory: context.pluginWorkDirectory)
+            .buildCommand(displayName: "LicensePlist is processing licenses...",
+                          executable: tool.path,
+                          arguments: [])
+//            .prebuildCommand(displayName: "LicensePlist is processing licenses...",
+//                             executable: tool.path,
+//                             arguments: [],
+//                             outputFilesDirectory: context.pluginWorkDirectory)
         ]
     }
 }
