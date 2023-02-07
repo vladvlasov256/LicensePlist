@@ -22,3 +22,21 @@ struct LicensePlistBuildTool: BuildToolPlugin {
         ]
     }
 }
+
+#if canImport(XcodeProjectPlugin)
+import XcodeProjectPlugin
+
+extension LicensePlistBuildTool: XcodeBuildToolPlugin {
+    func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
+        let tool = try context.tool(named: "LicensePlistBuild")
+        return [
+            .buildCommand(displayName: "LicensePlist is processing licenses...",
+                          executable: tool.path,
+                          arguments: [],
+                          inputFiles: [],
+                          outputFiles: [])
+        ]
+    }
+}
+
+#endif
