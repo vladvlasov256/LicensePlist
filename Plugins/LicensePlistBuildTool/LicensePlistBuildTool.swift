@@ -12,7 +12,7 @@ import PackagePlugin
 struct LicensePlistBuildTool: BuildToolPlugin {
     func createBuildCommands(context: PluginContext,
                              target: Target) async throws -> [Command] {
-        let tool = try context.tool(named: "LicensePlistBuild")        
+        let tool = try context.tool(named: "license-plist")        
         return [
             .buildCommand(displayName: "LicensePlist is processing licenses...",
                           executable: tool.path,
@@ -28,7 +28,7 @@ import XcodeProjectPlugin
 
 extension LicensePlistBuildTool: XcodeBuildToolPlugin {
     func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
-        let tool = try context.tool(named: "LicensePlistBuild")
+        let tool = try context.tool(named: "license-plist")
         return [
             .buildCommand(displayName: "LicensePlist is processing licenses...",
                           executable: tool.path,

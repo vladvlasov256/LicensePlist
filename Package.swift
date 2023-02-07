@@ -52,7 +52,7 @@ let package = Package(
         .plugin(
             name: "LicensePlistBuildTool",
             capability: .buildTool(),
-            dependencies: [.target(name: "LicensePlist")]
+            dependencies: ["LicensePlist"]
         )
     ]
 )
