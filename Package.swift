@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.6
 
 import PackageDescription
 
@@ -7,6 +7,7 @@ let package = Package(
     products: [
         .executable(name: "license-plist", targets: ["LicensePlist"]),
         .library(name: "LicensePlistCore", targets: ["LicensePlistCore"]),
+        .plugin(name: "LicensePlistBuildTool", targets: ["LicensePlistBuildTool"])
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git",
@@ -48,5 +49,10 @@ let package = Package(
                 "XcodeProjects",
             ]
         ),
+        .plugin(
+            name: "LicensePlistBuildTool",
+            capability: .buildTool(),
+            dependencies: [.target(name: "LicensePlist")]
+        )
     ]
 )
