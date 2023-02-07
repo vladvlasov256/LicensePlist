@@ -14,11 +14,10 @@ struct LicensePlistBuildTool: BuildToolPlugin {
                              target: Target) async throws -> [Command] {
         let tool = try context.tool(named: "LicensePlist")
         return [
-            .buildCommand(displayName: "LicensePlist is processing licenses...",
-                          executable: tool.path,
-                          arguments: [],
-                          inputFiles: [],
-                          outputFiles: [])
+            .prebuildCommand(displayName: "LicensePlist is processing licenses...",
+                             executable: tool.path,
+                             arguments: [],
+                             outputFilesDirectory: context.pluginWorkDirectory)
         ]
     }
 }
@@ -30,11 +29,10 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
     func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
         let tool = try context.tool(named: "LicensePlist")
         return [
-            .buildCommand(displayName: "LicensePlist is processing licenses...",
-                          executable: tool.path,
-                          arguments: [],
-                          inputFiles: [],
-                          outputFiles: [])
+            .prebuildCommand(displayName: "LicensePlist is processing licenses...",
+                             executable: tool.path,
+                             arguments: [],
+                             outputFilesDirectory: context.pluginWorkDirectory)
         ]
     }
 }
