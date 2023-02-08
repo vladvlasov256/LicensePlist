@@ -69,10 +69,14 @@ struct PlistInfo {
             ["add-version-numbers: \(options.config.addVersionNumbers)", "LicensePlist Version: \(Consts.version)"])
             .joined(separator: "\n\n")
         let savePath = options.outputPath.appendingPathComponent("\(options.prefix).latest_result.txt")
-        if let previous = savePath.lp.read(), previous == contents, !config.force {
-            Log.warning("Completed because no diff. You can execute force by `--force` flag.")
-            exit(0)
-        }
+    
+        // !!!
+        Log.info("🚂 \(savePath)")
+        
+//        if let previous = savePath.lp.read(), previous == contents, !config.force {
+//            Log.warning("Completed because no diff. You can execute force by `--force` flag.")
+//            exit(0)
+//        }
         summary = contents
         summaryPath = savePath
     }
