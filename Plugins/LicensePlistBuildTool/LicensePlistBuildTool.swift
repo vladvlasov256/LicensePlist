@@ -28,15 +28,24 @@ import XcodeProjectPlugin
 extension LicensePlistBuildTool: XcodeBuildToolPlugin {
     func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
         let tool = try context.tool(named: "LicensePlist")
-        print("ℹ️ LicensePist path: \(tool.path)")
+        
+        let resourcesDirectoryPath = context.pluginWorkDirectory
+            .appending(subpath: target.displayName)
+            .appending(subpath: "Resources")
+        
+        try FileManager.default.createDirectory(atPath: resourcesDirectoryPath.string, withIntermediateDirectories: true)
+        
+        let plistPath = resourcesDirectoryPath.appending(subpath: "Acknowledgements.plist")
+        
         return [
             .buildCommand(displayName: "LicensePlist is processing licenses...",
                           executable: tool.path,
-                          arguments: [])
-//            .prebuildCommand(displayName: "LicensePlist is processing licenses...",
-//                             executable: tool.path,
-//                             arguments: [],
-//                             outputFilesDirectory: context.pluginWorkDirectory)
+                          arguments: ["--outputPath", plistPath],
+                          outputFiles: [plistPath])
+            //            .prebuildCommand(displayName: "LicensePlist is processing licenses...",
+            //                             executable: tool.path,
+            //                             arguments: [],
+            //                             outputFilesDirectory: context.pluginWorkDirectory)
         ]
     }
 }
