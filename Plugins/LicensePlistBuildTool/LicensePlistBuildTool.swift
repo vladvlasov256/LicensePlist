@@ -35,12 +35,10 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         
         try FileManager.default.createDirectory(atPath: resourcesDirectoryPath.string, withIntermediateDirectories: true)
         
-        let plistPath = resourcesDirectoryPath.appending(subpath: "Acknowledgements.plist")
-        
         return [
             .buildCommand(displayName: "LicensePlist is processing licenses...",
                           executable: tool.path,
-                          arguments: ["--output-path", plistPath],
+                          arguments: ["--output-path", resourcesDirectoryPath],
                           outputFiles: [plistPath])
             //            .prebuildCommand(displayName: "LicensePlist is processing licenses...",
             //                             executable: tool.path,
