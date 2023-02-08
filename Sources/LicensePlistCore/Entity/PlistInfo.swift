@@ -57,6 +57,8 @@ struct PlistInfo {
     }
 
     mutating func compareWithLatestSummary() {
+        Log.info("🚂")
+        return // !!!
         guard let cocoaPodsLicenses = cocoaPodsLicenses,
             let githubLibraries = githubLibraries,
             let manualLicenses = manualLicenses else { preconditionFailure() }
