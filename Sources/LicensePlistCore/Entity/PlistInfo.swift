@@ -47,6 +47,8 @@ struct PlistInfo {
 
         let packages = packageFiles.flatMap { SwiftPackage.loadPackages($0) }
         let packagesAsGithubLibraries = packages.compactMap { $0.toGitHub(renames: options.config.renames) }.sorted()
+        
+        Log.info(packages.map { "- package: $0.package" }) // !!! debug
 
         githubLibraries = (githubLibraries ?? []) + options.config.apply(githubs: packagesAsGithubLibraries)
     }
