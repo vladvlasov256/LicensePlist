@@ -40,7 +40,7 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         return [
             .buildCommand(displayName: "LicensePlist is processing licenses...",
                           executable: tool.path,
-                          arguments: ["--outputPath", plistPath],
+                          arguments: ["--output-path", plistPath],
                           outputFiles: [plistPath])
             //            .prebuildCommand(displayName: "LicensePlist is processing licenses...",
             //                             executable: tool.path,
