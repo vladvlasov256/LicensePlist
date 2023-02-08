@@ -91,6 +91,9 @@ struct LicensePlist: ParsableCommand {
         print("❌ 123") // !!! debug
         Logger.configure(logLevel: logLevel,
                          colorCommandLineFlag: color)
+        
+        Log.info("❌ 456") // !!! debug
+        return
 
         var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
         config.force = force ?? config.options.force ?? false
