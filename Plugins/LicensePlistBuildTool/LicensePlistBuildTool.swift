@@ -31,12 +31,14 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         
         // !!!
         var dir = context.pluginWorkDirectory.removingLastComponent()
-        print("Products: \(dir)")
+        print("BasicApp: \(dir)")
         dir = dir.removingLastComponent()
-        print("Build: \(dir)")
+        print("BasicApp.output: \(dir)")
         dir = dir.removingLastComponent()
-        print("Root: \(dir)")
-        dir = dir.appending(subpath: "SourcePackages").appending(subpath: "checkouts")
+        print("plugins: \(dir)")
+        dir = dir.removingLastComponent()
+        print("SourcePackages: \(dir)")
+        dir = dir.appending(subpath: "checkouts")
         print("checkouts: \(dir)")
         print("🐶 \(try FileManager.default.contentsOfDirectory(atPath: dir.string))")
         
