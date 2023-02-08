@@ -31,16 +31,16 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         
         // !!!
         var dir = context.pluginWorkDirectory.removingLastComponent()
-        print("BasicApp: \(dir)")
         dir = dir.removingLastComponent()
-        print("BasicApp.output: \(dir)")
         dir = dir.removingLastComponent()
-        print("plugins: \(dir)")
         dir = dir.removingLastComponent()
-        print("SourcePackages: \(dir)")
         dir = dir.appending(subpath: "checkouts")
-        print("checkouts: \(dir)")
         print("🐶 \(try FileManager.default.contentsOfDirectory(atPath: dir.string))")
+        
+        let projDir = context.xcodeProject.directory
+        let configPath = projDir.appending(subpath: "license_plist.yml")
+        let data = try Data(contentsOf: URL(fileURLWithPath: configPath.string))
+        print("🐶 \(String(data: data, encoding: .utf8) ?? "")")
         
         let resourcesDirectoryPath = context.pluginWorkDirectory
             .appending(subpath: target.displayName)
