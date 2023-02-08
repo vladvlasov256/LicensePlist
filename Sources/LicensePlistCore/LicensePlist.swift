@@ -37,7 +37,7 @@ public final class LicensePlist {
 //        return // !!! debug
 
         info.loadManualLibraries()
-        return // !!! debug
+//        return // !!! debug
         info.compareWithLatestSummary()
         //        return // !!! debug
         info.downloadGitHubLicenses()
