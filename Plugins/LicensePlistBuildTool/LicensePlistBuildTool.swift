@@ -29,6 +29,17 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
     func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
         let tool = try context.tool(named: "LicensePlist")
         
+        // !!!
+        var dir = context.pluginWorkDirectory.removingLastComponent()
+        print("Products: \(dir)")
+        dir = dir.removingLastComponent()
+        print("Build: \(dir)")
+        dir = dir.removingLastComponent()
+        print("Root: \(dir)")
+        dir = dir.appending(subpath: "SourcePackages").appending(subpath: "checkouts")
+        print("checkouts: \(dir)")
+        print("🐶 \(try FileManager.default.contentsOfDirectory(atPath: dir.string))")
+        
         let resourcesDirectoryPath = context.pluginWorkDirectory
             .appending(subpath: target.displayName)
             .appending(subpath: "Resources")

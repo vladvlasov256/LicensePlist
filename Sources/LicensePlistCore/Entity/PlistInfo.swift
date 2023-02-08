@@ -57,8 +57,6 @@ struct PlistInfo {
     }
 
     mutating func compareWithLatestSummary() {
-//        Log.info("🚂")
-//        return // !!!
         guard let cocoaPodsLicenses = cocoaPodsLicenses,
             let githubLibraries = githubLibraries,
             let manualLicenses = manualLicenses else { preconditionFailure() }
@@ -71,9 +69,6 @@ struct PlistInfo {
             ["add-version-numbers: \(options.config.addVersionNumbers)", "LicensePlist Version: \(Consts.version)"])
             .joined(separator: "\n\n")
         let savePath = options.outputPath.appendingPathComponent("\(options.prefix).latest_result.txt")
-    
-//        // !!!
-//        Log.info("🚂 \(savePath)")
         
         if let previous = savePath.lp.read(), previous == contents, !config.force {
             Log.warning("Completed because no diff. You can execute force by `--force` flag.")
