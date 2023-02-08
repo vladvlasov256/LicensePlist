@@ -88,6 +88,7 @@ struct LicensePlist: ParsableCommand {
     var color: Bool?
 
     func run() throws {
+        print("❌ 123") // !!! debug
         Logger.configure(logLevel: logLevel,
                          colorCommandLineFlag: color)
 
