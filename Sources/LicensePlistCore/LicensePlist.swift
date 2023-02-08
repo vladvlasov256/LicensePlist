@@ -34,12 +34,16 @@ public final class LicensePlist {
         } catch {
             fatalError(error.localizedDescription)
         }
-        return // !!! debug
+//        return // !!! debug
 
         info.loadManualLibraries()
+        return // !!! debug
         info.compareWithLatestSummary()
+        //        return // !!! debug
         info.downloadGitHubLicenses()
+        //        return // !!! debug
         info.collectLicenseInfos()
+        //        return // !!! debug
         info.outputPlist()
         Log.info("End")
         info.reportMissings()
