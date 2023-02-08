@@ -72,13 +72,13 @@ struct PlistInfo {
             .joined(separator: "\n\n")
         let savePath = options.outputPath.appendingPathComponent("\(options.prefix).latest_result.txt")
     
-        // !!!
-        Log.info("🚂 \(savePath)")
+//        // !!!
+//        Log.info("🚂 \(savePath)")
         
-//        if let previous = savePath.lp.read(), previous == contents, !config.force {
-//            Log.warning("Completed because no diff. You can execute force by `--force` flag.")
-//            exit(0)
-//        }
+        if let previous = savePath.lp.read(), previous == contents, !config.force {
+            Log.warning("Completed because no diff. You can execute force by `--force` flag.")
+            exit(0)
+        }
         summary = contents
         summaryPath = savePath
     }
