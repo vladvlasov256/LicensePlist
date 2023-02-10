@@ -80,6 +80,15 @@ struct LicensePlist: ParsableCommand {
 
     @Flag(exclusivity: .chooseLast)
     var logLevel: LogLevel = .normalLogLevel
+    
+    @Flag(name: .long)
+    var buildTool = false
+    
+    @Flag(name: .long)
+    var buildTool = false
+    
+    @Option(name: .long, completion: .directory)
+    var packageCheckoutPath: String?
 
     @Flag(name: .long,
           inversion: .prefixedNo,
@@ -90,6 +99,8 @@ struct LicensePlist: ParsableCommand {
     func run() throws {
         Logger.configure(logLevel: logLevel,
                          colorCommandLineFlag: color)
+        
+        print("🐶 \(try FileManager.default.contentsOfDirectory(atPath: checkoutDirectoryPath.string))")
 
         var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
         config.force = force ?? config.options.force ?? false
@@ -121,6 +132,8 @@ struct LicensePlist: ParsableCommand {
                               gitHubToken: githubToken,
                               htmlPath: htmlPath.map { return URL(fileURLWithPath: $0) },
                               markdownPath: markdownPath.map { return URL(fileURLWithPath: $0) },
+                              isUsedByBuildTool: buildTool,
+                              packageCheckoutPath: packageCheckoutPath.map { return URL(fileURLWithPath: $0) },
                               config: config)
         let tool = LicensePlistCore.LicensePlist()
         tool.process(options: options)

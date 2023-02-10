@@ -7,7 +7,6 @@ public final class LicensePlist {
 
     public func process(options: Options) {
         Log.info("Start")
-//        return // !!! debug
         GitHubAuthorization.shared.token = options.gitHubToken
         var info = PlistInfo(options: options)
         info.loadCocoaPodsLicense(acknowledgements: readPodsAcknowledgements(path: options.podsPath))
@@ -34,16 +33,21 @@ public final class LicensePlist {
         } catch {
             fatalError(error.localizedDescription)
         }
-//        return; // !!! debug
 
         info.loadManualLibraries()
-//        return; // !!! debug
         info.compareWithLatestSummary()
-//        return; // !!! debug
+        if let path = options.packageCheckoutPath {
+            do {
+                print("🚂 \(try FileManager.default.contentsOfDirectory(atPath: path.absoluteString))")
+            } catch {
+                print("🕸 \(error)")
+            }
+        } else {
+            print("🕸 oooops")
+        }
+        return; // !!! debug
         info.downloadGitHubLicenses()
-//                return; // !!! debug
         info.collectLicenseInfos()
-        //        return; // !!! debug
         info.outputPlist()
         Log.info("End")
         info.reportMissings()

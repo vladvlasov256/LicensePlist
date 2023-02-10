@@ -12,6 +12,8 @@ public struct Options {
     public let gitHubToken: String?
     public let htmlPath: URL?
     public let markdownPath: URL?
+    public let isUsedByBuildTool: Bool
+    public let packageCheckoutPath: URL?
     public let config: Config
 
     public static let empty = Options(outputPath: URL(fileURLWithPath: ""),
@@ -25,6 +27,8 @@ public struct Options {
                                       gitHubToken: nil,
                                       htmlPath: nil,
                                       markdownPath: nil,
+                                      isUsedByBuildTool: false,
+                                      packageCheckoutPath: nil,
                                       config: Config.empty)
 
     public init(outputPath: URL,
@@ -38,6 +42,8 @@ public struct Options {
                 gitHubToken: String?,
                 htmlPath: URL?,
                 markdownPath: URL?,
+                isUsedByBuildTool: Bool,
+                packageCheckoutPath: URL?,
                 config: Config) {
         self.outputPath = outputPath
         self.cartfilePath = cartfilePath
@@ -50,6 +56,8 @@ public struct Options {
         self.gitHubToken = gitHubToken
         self.htmlPath = htmlPath
         self.markdownPath = markdownPath
+        self.isUsedByBuildTool = isUsedByBuildTool
+        self.packageCheckoutPath = packageCheckoutPath
         self.config = config
     }
 }

@@ -30,12 +30,12 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         let tool = try context.tool(named: "LicensePlist")
         
         // !!!
-        var dir = context.pluginWorkDirectory.removingLastComponent()
-        dir = dir.removingLastComponent()
-        dir = dir.removingLastComponent()
-        dir = dir.removingLastComponent()
-        dir = dir.appending(subpath: "checkouts")
-        print("🐶 \(try FileManager.default.contentsOfDirectory(atPath: dir.string))")
+        let checkoutDirectoryPath = context.pluginWorkDirectory.removingLastComponent()
+            .removingLastComponent()
+            .removingLastComponent()
+            .removingLastComponent()
+            .appending(subpath: "checkouts")
+        print("🐶 \(try FileManager.default.contentsOfDirectory(atPath: checkoutDirectoryPath.string))")
         
         let projDir = context.xcodeProject.directory
         let configPath = projDir.appending(subpath: "license_plist.yml")
@@ -54,7 +54,10 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         return [
             .buildCommand(displayName: "LicensePlist is processing licenses...",
                           executable: tool.path,
-                          arguments: ["--output-path", resourcesDirectoryPath],
+                          arguments: ["--build-tool", true,
+                                      "--package-checkout-path", checkoutDirectoryPath.string,
+                                      "--output-path", resourcesDirectoryPath
+                                     ],
                           outputFiles: [plistPath, latestResultPath])
             //            .prebuildCommand(displayName: "LicensePlist is processing licenses...",
             //                             executable: tool.path,
