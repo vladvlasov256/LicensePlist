@@ -54,7 +54,7 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         return [
             .buildCommand(displayName: "LicensePlist is processing licenses...",
                           executable: tool.path,
-                          arguments: ["--build-tool", true,
+                          arguments: ["--build-tool",
                                       "--package-checkout-path", checkoutDirectoryPath.string,
                                       "--output-path", resourcesDirectoryPath
                                      ],

@@ -81,7 +81,7 @@ struct LicensePlist: ParsableCommand {
     @Flag(exclusivity: .chooseLast)
     var logLevel: LogLevel = .normalLogLevel
     
-    @Flag(name: .long)
+    @Flag(name: .long, inversion: .prefixedNo)
     var buildTool = false
     
     @Option(name: .long, completion: .directory)
