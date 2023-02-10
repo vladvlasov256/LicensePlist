@@ -94,6 +94,15 @@ struct PlistInfo {
             }
         }.compactMap { $0 }
     }
+    
+    mutating func readCheckoutLicenses() {
+        guard let githubLibraries = githubLibraries else { preconditionFailure() }
+
+        githubLibraries.forEach { lib in
+            // !!! debug
+            Log.info("\(lib.name) - \(lib.nameSpecified)")
+        }
+    }
 
     mutating func collectLicenseInfos() {
         guard let cocoaPodsLicenses = cocoaPodsLicenses,

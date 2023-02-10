@@ -95,6 +95,7 @@ extension SwiftPackage {
     }
 
     private func getDefaultName(for owner: String, and name: String) -> String {
+        // TODO: Implement file parsing
         guard packageDefinitionVersion != 1 else { return package } // In SPM v1 the Package.resolved JSON always contains the correct name, no need for anything else.
         guard let version = version else { return fallbackName(using: name) }
         guard let packageDefinitionURL = URL(string: "https://raw.githubusercontent.com/\(owner)/\(name)/\(version)/Package.swift") else { return fallbackName(using: name) }

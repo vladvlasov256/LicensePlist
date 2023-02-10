@@ -37,7 +37,7 @@ public final class LicensePlist {
         info.loadManualLibraries()
         info.compareWithLatestSummary()
         if let path = options.packageCheckoutPath {
-            do {
+            do { // !!! debug
                 print("🚂 \(try FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil))")
             } catch {
                 print("🕸 \(error)")
@@ -46,7 +46,11 @@ public final class LicensePlist {
             print("🕸 oooops")
         }
         return; // !!! debug
-        info.downloadGitHubLicenses()
+        if options.isUsedByBuildTool {
+            info.readCheckoutLicenses()
+        } else {
+            info.downloadGitHubLicenses()
+        }
         info.collectLicenseInfos()
         info.outputPlist()
         Log.info("End")
