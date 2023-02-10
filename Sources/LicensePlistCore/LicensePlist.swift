@@ -45,7 +45,6 @@ public final class LicensePlist {
         } else {
             print("🕸 oooops")
         }
-        return; // !!! debug
         if options.isUsedByBuildTool {
             info.readCheckoutLicenses()
         } else {
