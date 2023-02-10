@@ -100,7 +100,7 @@ struct LicensePlist: ParsableCommand {
         var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
         config.force = force ?? config.options.force ?? false
         config.addVersionNumbers = config.options.addVersionNumbers ?? addVersionNumbers ?? false
-        config.suppressOpeningDirectory = config.options.suppressOpeningDirectory ?? suppressOpeningDirectory ?? false
+        config.suppressOpeningDirectory = config.options.suppressOpeningDirectory ?? suppressOpeningDirectory ?? buildTool
         config.singlePage = config.options.singlePage ?? singlePage ?? false
         config.failIfMissingLicense = config.options.failIfMissingLicense ?? failIfMissingLicense ?? false
         config.addSources = config.options.addSources ?? addSources ?? false
