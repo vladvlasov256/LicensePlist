@@ -37,11 +37,7 @@ public final class LicensePlist {
         info.loadManualLibraries()
         info.compareWithLatestSummary()
         if let path = options.packageCheckoutPath {
-            do {
-                print("🚂 \(try FileManager.default.contentsOfDirectory(atPath: path.absoluteString))")
-            } catch {
-                print("🕸 \(error)")
-            }
+            print("🚂 \(path.listDir())")
         } else {
             print("🕸 oooops")
         }
