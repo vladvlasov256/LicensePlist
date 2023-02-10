@@ -35,7 +35,8 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         let tool = try context.tool(named: "LicensePlist")
         
         // !!!
-        let checkoutDirectoryPath = context.pluginWorkDirectory.removingLastComponent()
+        let checkoutDirectoryPath = context.pluginWorkDirectory
+            .removingLastComponent()
             .removingLastComponent()
             .removingLastComponent()
             .removingLastComponent()
@@ -50,7 +51,9 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
             throw LicensePlistBuildToolError.workspaceNotFound
         }
         
-        let resolvedPath = Path(workspacePath).appending(subpath: "xcshareddata/swiftpm/Package.resolved")
+        let resolvedPath = Path(fileManager.currentDirectoryPath)
+            .appending(subpath: workspacePath)
+            .appending(subpath: "xcshareddata/swiftpm/Package.resolved")
         guard fileManager.fileExists(atPath: resolvedPath.string) else {
             throw LicensePlistBuildToolError.packageResolvedFileNotFound
         }
@@ -77,11 +80,12 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
 //        let data = try Data(contentsOf: URL(fileURLWithPath: configPath.string))
 //        print("🐶 \(String(data: data, encoding: .utf8) ?? "")")
         
+        // TODO: Find file path
         let resourcesDirectoryPath = context.pluginWorkDirectory
             .appending(subpath: target.displayName)
             .appending(subpath: "Resources")
         
-        try FileManager.default.createDirectory(atPath: resourcesDirectoryPath.string, withIntermediateDirectories: true)
+        try fileManager.createDirectory(atPath: resourcesDirectoryPath.string, withIntermediateDirectories: true)
         
         let plistPath = resourcesDirectoryPath.appending(subpath: "Acknowledgements.plist")
         let latestResultPath = resourcesDirectoryPath.appending(subpath: "Acknowledgements.latest_result.txt")
@@ -93,7 +97,7 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
             .buildCommand(displayName: "LicensePlist is processing licenses...",
                           executable: tool.path,
                           arguments: ["--build-tool",
-                                      "--package-path", resolvedPath.string,
+                                      "--package-path", resolvedPath,
                                       "--package-checkout-path", checkoutDirectoryPath.string,
                                       "--output-path", resourcesDirectoryPath
                                      ],
