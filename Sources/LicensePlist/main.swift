@@ -128,7 +128,7 @@ struct LicensePlist: ParsableCommand {
                               htmlPath: htmlPath.map { return URL(fileURLWithPath: $0) },
                               markdownPath: markdownPath.map { return URL(fileURLWithPath: $0) },
                               isUsedByBuildTool: buildTool,
-                              packageCheckoutPath: packageCheckoutPath.map { return URL(fileURLWithPath: $0) },
+                              packageCheckoutPath: packageCheckoutPath.map { return URL(fileURLWithPath: $0, isDirectory: true) },
                               config: config)
         let tool = LicensePlistCore.LicensePlist()
         tool.process(options: options)
