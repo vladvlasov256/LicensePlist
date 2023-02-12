@@ -81,9 +81,7 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         
         // TODO: Check whether or not it's correct to use displayName here
         // TODO: Get output path from the config
-        let outputDirectoryPath = context.pluginWorkDirectory
-            .appending(subpath: target.displayName)
-            .appending(subpath: "Resources/Settings.bundle")
+        let outputDirectoryPath = context.pluginWorkDirectory.appending(subpath: "Resources/Settings.bundle")
         
         try fileManager.createDirectory(atPath: outputDirectoryPath.string, withIntermediateDirectories: true)
         
@@ -108,18 +106,21 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         let latestResultPath = outputDirectoryPath.appending(subpath: "Acknowledgements.latest_result.txt")
         
         return [
-            .buildCommand(displayName: "LicensePlist is processing licenses...",
-                          executable: tool.path,
-                          arguments: ["--build-tool",
-//                                      "--package-path", resolvedPath,
-                                      "--package-checkout-path", checkoutDirectoryPath.string,
-                                      "--output-path", outputDirectoryPath
-                                     ],
-                          outputFiles: [outputDirectoryPath])
-            //            .prebuildCommand(displayName: "LicensePlist is processing licenses...",
-            //                             executable: tool.path,
-            //                             arguments: [],
-            //                             outputFilesDirectory: context.pluginWorkDirectory)
+//            .buildCommand(displayName: "LicensePlist is processing licenses...",
+//                          executable: tool.path,
+//                          arguments: ["--build-tool",
+////                                      "--package-path", resolvedPath,
+//                                      "--package-checkout-path", checkoutDirectoryPath.string,
+//                                      "--output-path", outputDirectoryPath
+//                                     ],
+//                          outputFiles: [outputDirectoryPath])
+                        .prebuildCommand(displayName: "LicensePlist is processing licenses...",
+                                         executable: tool.path,
+                                         arguments: ["--build-tool",
+                                                     "--package-checkout-path", checkoutDirectoryPath.string,
+                                                     "--output-path", outputDirectoryPath
+                                                    ],
+                                         outputFilesDirectory: context.pluginWorkDirectory)
         ]
     }
 }
