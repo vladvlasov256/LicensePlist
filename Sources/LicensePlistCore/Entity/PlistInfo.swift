@@ -106,6 +106,11 @@ struct PlistInfo {
     }
 
     mutating func collectLicenseInfos() {
+        
+        Log.info("🍶 \(cocoaPodsLicenses != null) \(githubLicenses != null) \(manualLicenses != null)")
+        
+        return; // !!! debug
+        
         guard let cocoaPodsLicenses = cocoaPodsLicenses,
             let githubLicenses = githubLicenses,
             let manualLicenses = manualLicenses else { preconditionFailure() }
