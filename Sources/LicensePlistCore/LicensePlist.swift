@@ -45,7 +45,7 @@ public final class LicensePlist {
         } else {
             info.downloadGitHubLicenses()
         }
-        return; // !!! debug
+//        return; // !!! debug
         info.collectLicenseInfos()
         info.outputPlist()
         Log.info("End")
