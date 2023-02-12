@@ -7,6 +7,8 @@
 
 import Foundation
 
+import LoggerAPI // !!! debug
+
 public struct SwiftPackage: Equatable {
     let package: String
     let repositoryURL: String
@@ -111,6 +113,7 @@ extension SwiftPackage {
     
     private func readPackageDefinition(name: String, checkoutPath: URL) -> String? {
         let url = checkoutPath.appendingPathComponent(name).appendingPathComponent("Package.swift")
+        Log.info("\(name)'s package: \(url.absoluteString)") // !!! debug
         return try? String(contentsOf: url)
     }
     
