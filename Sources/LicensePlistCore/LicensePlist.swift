@@ -47,7 +47,7 @@ public final class LicensePlist {
         }
 //        return; // !!! debug (works)
         info.collectLicenseInfos()
-        return; // !!! debug ???
+//        return; // !!! debug ???
         info.outputPlist()
         Log.info("End")
 //        return; // !!! debug (doesn't work)

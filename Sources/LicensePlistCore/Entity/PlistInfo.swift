@@ -56,7 +56,6 @@ struct PlistInfo {
     mutating func loadManualLibraries() {
         Log.info("Manual License start")
         manualLicenses = ManualLicense.load(options.config.manuals).sorted()
-        githubLibraries = []
     }
 
     mutating func compareWithLatestSummary() {
@@ -103,6 +102,7 @@ struct PlistInfo {
         let licenses = ManualLicense.readFromDisk(githubLibraries, checkoutPath: checkoutPath)
         let manualLicenses = manualLicenses ?? []
         self.manualLicenses = (manualLicenses + licenses).sorted()
+        self.githubLibraries = []
     }
 
     mutating func collectLicenseInfos() {
