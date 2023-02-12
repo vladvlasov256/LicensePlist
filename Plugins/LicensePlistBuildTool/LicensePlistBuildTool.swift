@@ -85,7 +85,6 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
             .appending(subpath: target.displayName)
             .appending(subpath: "Resources/Settings.bundle")
         
-        
         try fileManager.createDirectory(atPath: outputDirectoryPath.string, withIntermediateDirectories: true)
         
 //        try fileManager.contentsOfDirectory(atPath: outputDirectoryPath.string).forEach { item in
@@ -116,7 +115,7 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
                                       "--package-checkout-path", checkoutDirectoryPath.string,
                                       "--output-path", outputDirectoryPath
                                      ],
-                          outputFiles: [plistPath, latestResultPath])
+                          outputFiles: [context.pluginWorkDirectory.appending(subpath: target.displayName)])
             //            .prebuildCommand(displayName: "LicensePlist is processing licenses...",
             //                             executable: tool.path,
             //                             arguments: [],
