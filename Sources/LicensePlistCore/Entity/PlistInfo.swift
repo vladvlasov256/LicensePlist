@@ -107,7 +107,7 @@ struct PlistInfo {
 
     mutating func collectLicenseInfos() {
         
-        Log.info("🍶 \(cocoaPodsLicenses != null) \(githubLicenses != null) \(manualLicenses != null)")
+        Log.info("🍶 \(cocoaPodsLicenses != nil) \(githubLicenses != nil) \(manualLicenses != nil)")
         
         return; // !!! debug
         
