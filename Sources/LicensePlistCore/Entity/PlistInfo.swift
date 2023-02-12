@@ -46,7 +46,9 @@ struct PlistInfo {
         Log.info("Swift Package Manager License collect start")
 
         let packages = packageFiles.flatMap { SwiftPackage.loadPackages($0) }
-        let packagesAsGithubLibraries = packages.compactMap { $0.toGitHub(renames: options.config.renames) }.sorted()
+        let packagesAsGithubLibraries = packages.compactMap {
+            $0.toGitHub(renames: options.config.renames, checkoutPath: options.packageCheckoutPath)
+        }.sorted()
 
         githubLibraries = (githubLibraries ?? []) + options.config.apply(githubs: packagesAsGithubLibraries)
     }
