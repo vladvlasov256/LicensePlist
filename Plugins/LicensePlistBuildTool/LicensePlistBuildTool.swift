@@ -77,7 +77,7 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         
         // TODO: Check whether or not it's correct to use displayName here
         // TODO: Get output path from the config
-        let outputDirectoryPath = context.pluginWorkDirectory.appending(subpath: "Resources/Settings.bundle")
+        let outputDirectoryPath = context.pluginWorkDirectory.appending(subpath: "Settings.bundle")
         
         try fileManager.createDirectory(atPath: outputDirectoryPath.string, withIntermediateDirectories: true)
         
