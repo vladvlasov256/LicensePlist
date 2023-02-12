@@ -45,11 +45,12 @@ public final class LicensePlist {
         } else {
             info.downloadGitHubLicenses()
         }
-//        return; // !!! debug
+//        return; // !!! debug (works)
         info.collectLicenseInfos()
+        return; // !!! debug ???
         info.outputPlist()
         Log.info("End")
-        return; // !!! debug
+//        return; // !!! debug (doesn't work)
         info.reportMissings()
         info.finish()
         if !options.config.suppressOpeningDirectory {
