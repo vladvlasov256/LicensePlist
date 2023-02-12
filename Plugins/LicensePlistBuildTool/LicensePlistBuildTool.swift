@@ -55,7 +55,7 @@ struct LicensePlistBuildTool: XcodeBuildToolPlugin {
         
         return [
             .prebuildCommand(displayName: "LicensePlist is processing licenses...",
-                             executable: try context.tool(named: "LicensePlist").path,
+                             executable: try context.tool(named: "license-plist").path,
                              arguments: ["--build-tool",
                                          "--config-path", configPath,
                                          "--package-path", packageResolvedPath,
