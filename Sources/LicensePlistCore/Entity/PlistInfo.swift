@@ -56,6 +56,7 @@ struct PlistInfo {
     mutating func loadManualLibraries() {
         Log.info("Manual License start")
         manualLicenses = ManualLicense.load(options.config.manuals).sorted()
+        githubLibraries = []
     }
 
     mutating func compareWithLatestSummary() {
