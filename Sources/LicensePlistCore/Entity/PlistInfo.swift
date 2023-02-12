@@ -46,7 +46,9 @@ struct PlistInfo {
         Log.info("Swift Package Manager License collect start")
 
         let packages = packageFiles.flatMap { SwiftPackage.loadPackages($0) }
-        let packagesAsGithubLibraries = packages.compactMap { $0.toGitHub(renames: options.config.renames) }.sorted()
+        let packagesAsGithubLibraries = packages.compactMap {
+            $0.toGitHub(renames: options.config.renames, checkoutPath: options.packageCheckoutPath)
+        }.sorted()
 
         githubLibraries = (githubLibraries ?? []) + options.config.apply(githubs: packagesAsGithubLibraries)
     }
@@ -69,6 +71,7 @@ struct PlistInfo {
             ["add-version-numbers: \(options.config.addVersionNumbers)", "LicensePlist Version: \(Consts.version)"])
             .joined(separator: "\n\n")
         let savePath = options.outputPath.appendingPathComponent("\(options.prefix).latest_result.txt")
+        
         if let previous = savePath.lp.read(), previous == contents, !config.force {
             Log.warning("Completed because no diff. You can execute force by `--force` flag.")
             exit(0)
@@ -76,22 +79,13 @@ struct PlistInfo {
         summary = contents
         summaryPath = savePath
     }
-
-    mutating func downloadGitHubLicenses() {
-        guard let githubLibraries = githubLibraries else { preconditionFailure() }
-
-        let queue = OperationQueue()
-        queue.maxConcurrentOperationCount = 10
-        let carthageOperations = githubLibraries.map { GitHubLicense.download($0) }
-        queue.addOperations(carthageOperations, waitUntilFinished: true)
-        githubLicenses = carthageOperations.map { operation in
-            switch operation.result {
-            case let .success(value):
-                return value
-            default:
-                return nil
-            }
-        }.compactMap { $0 }
+    
+    mutating func loadGitHubLicenses() {
+        if options.isUsedByBuildTool {
+            readCheckedOutLicenses()
+        } else {
+            downloadGitHubLicenses()
+        }
     }
 
     mutating func collectLicenseInfos() {
@@ -161,5 +155,28 @@ struct PlistInfo {
         } catch let e {
             Log.error("Failed to save summary. Error: \(String(describing: e))")
         }
+    }
+    
+    private mutating func downloadGitHubLicenses() {
+        guard let githubLibraries = githubLibraries else { preconditionFailure() }
+
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 10
+        let carthageOperations = githubLibraries.map { GitHubLicense.download($0) }
+        queue.addOperations(carthageOperations, waitUntilFinished: true)
+        githubLicenses = carthageOperations.map { operation in
+            switch operation.result {
+            case let .success(value):
+                return value
+            default:
+                return nil
+            }
+        }.compactMap { $0 }
+    }
+    
+    private mutating func readCheckedOutLicenses() {
+        guard let githubLibraries = githubLibraries else { preconditionFailure() }
+        guard let checkoutPath = options.packageCheckoutPath else { preconditionFailure() }
+        githubLicenses = GitHubLicense.readFromDisk(githubLibraries, checkoutPath: checkoutPath)
     }
 }

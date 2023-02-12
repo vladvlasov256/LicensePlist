@@ -7,6 +7,9 @@ public final class LicensePlist {
 
     public func process(options: Options) {
         Log.info("Start")
+        
+        validateIfNecessary(options: options)
+        
         GitHubAuthorization.shared.token = options.gitHubToken
         var info = PlistInfo(options: options)
         info.loadCocoaPodsLicense(acknowledgements: readPodsAcknowledgements(path: options.podsPath))
@@ -36,7 +39,7 @@ public final class LicensePlist {
 
         info.loadManualLibraries()
         info.compareWithLatestSummary()
-        info.downloadGitHubLicenses()
+        info.loadGitHubLicenses()
         info.collectLicenseInfos()
         info.outputPlist()
         Log.info("End")
@@ -44,6 +47,13 @@ public final class LicensePlist {
         info.finish()
         if !options.config.suppressOpeningDirectory {
             Shell.open(options.outputPath.path)
+        }
+    }
+    
+    private func validateIfNecessary(options: Options) {
+        guard options.isUsedByBuildTool else { return }
+        guard options.packageCheckoutPath != nil else {
+            fatalError("'--package-checkout-path' must be specified when using '--build-tool'")
         }
     }
 

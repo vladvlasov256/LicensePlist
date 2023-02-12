@@ -20,6 +20,8 @@ class PlistInfoTests: XCTestCase {
                                   gitHubToken: nil,
                                   htmlPath: nil,
                                   markdownPath: nil,
+                                  isUsedByBuildTool: false,
+                                  packageCheckoutPath: nil,
                                   config: Config(githubs: [GitHub(name: "facebook-ios-sdk",
                                                                   nameSpecified: nil,
                                                                   owner: "facebook",
@@ -30,7 +32,8 @@ class PlistInfoTests: XCTestCase {
                                                                   version: nil)],
                                                  manuals: [],
                                                  excludes: ["exclude"],
-                                                 renames: ["Himotoki": "Himotoki2"]))
+                                                 renames: ["Himotoki": "Himotoki2"],
+                                                 options: .empty))
 
     func testLoadCocoaPodsLicense() throws {
         var target = PlistInfo(options: options)
@@ -95,7 +98,7 @@ class PlistInfoTests: XCTestCase {
         target.githubLibraries = [github]
 
         XCTAssertNil(target.githubLicenses)
-        target.downloadGitHubLicenses()
+        target.loadGitHubLicenses()
         let licenses = try XCTUnwrap(target.githubLicenses)
         XCTAssertEqual(licenses.count, 1)
         let license = licenses.first
