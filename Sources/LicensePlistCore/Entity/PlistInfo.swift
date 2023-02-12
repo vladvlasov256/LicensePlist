@@ -102,15 +102,10 @@ struct PlistInfo {
         let licenses = ManualLicense.readFromDisk(githubLibraries, checkoutPath: checkoutPath)
         let manualLicenses = manualLicenses ?? []
         self.manualLicenses = (manualLicenses + licenses).sorted()
-        self.githubLibraries = []
+        self.githubLicenses = []
     }
 
     mutating func collectLicenseInfos() {
-        
-        Log.info("🍶 \(cocoaPodsLicenses != nil) \(githubLicenses != nil) \(manualLicenses != nil)")
-        
-        return; // !!! debug
-        
         guard let cocoaPodsLicenses = cocoaPodsLicenses,
             let githubLicenses = githubLicenses,
             let manualLicenses = manualLicenses else { preconditionFailure() }
