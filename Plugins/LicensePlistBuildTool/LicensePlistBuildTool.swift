@@ -88,7 +88,9 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         try fileManager.createDirectory(atPath: outputDirectoryPath.string, withIntermediateDirectories: true)
         let latestResultPath = outputDirectoryPath.appending(subpath: "Acknowledgements.latest_result.txt")
         
-        let originLatestResultPath = context.xcodeProject.directory.appending(subpath: "Acknowledgements.latest_result.txt")
+        // TODO: Use prefix: "\(options.prefix).latest_result.txt"
+        let originalOutputPath = context.xcodeProject.directory.appending(subpath: "Resources/Settings.bundle")
+        let originLatestResultPath = originalOutputPath.appending(subpath: "Acknowledgements.latest_result.txt")
         if fileManager.fileExists(atPath: originLatestResultPath.string) {
             try fileManager.copyItem(atPath: originLatestResultPath.string, toPath: latestResultPath.string)
         }
@@ -96,7 +98,7 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         // TODO: add warnings for '--build-tool' usage (like no checkout path, etc.)
         // TODO: filter target dependencies
         
-        
+        // TODO: Use options
         let plistPath = outputDirectoryPath.appending(subpath: "Acknowledgements.plist")
         
         return [
