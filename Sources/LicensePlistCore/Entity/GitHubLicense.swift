@@ -1,3 +1,4 @@
+import Foundation
 import LoggerAPI
 import APIKit
 

@@ -97,13 +97,11 @@ struct PlistInfo {
         }.compactMap { $0 }
     }
     
-    mutating func readCheckoutLicenses() {
+    mutating func readCheckedOutLicenses(from checkoutPath: URL) {
         guard let githubLibraries = githubLibraries else { preconditionFailure() }
-
-        githubLibraries.forEach { lib in
-            // !!! debug
-            Log.info("\(lib.name) - \(lib.nameSpecified)")
-        }
+        let licenses = ManualLicense.readFromDisk(githubLibraries, checkoutPath: checkoutPath)
+        let manualLicenses = manualLicenses ?? []
+        self.manualLicenses = (manualLicenses + licenses).sorted()
     }
 
     mutating func collectLicenseInfos() {

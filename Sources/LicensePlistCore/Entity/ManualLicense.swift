@@ -28,4 +28,25 @@ extension ManualLicense {
             return ManualLicense(library: $0, body: $0.body ?? "")
         }
     }
+    
+    public static func readFromDisk(_ libraries: [GitHub], checkoutPath: URL) -> [ManualLicense] {
+        return libraries.compactMap { library in
+            let owner = library.owner
+            let name = library.name
+            Log.info("license reading from disk start(owner: \(owner), name: \(name))")
+            
+            do {
+                let url = checkoutPath.appendingPathComponent(name).appendingPathComponent("LICENSE")
+                let content = try String(contentsOf: url)
+                let library = Manual(name: name,
+                                     source: library.source,
+                                     nameSpecified: library.nameSpecified,
+                                     version: library.version)
+                return ManualLicense(library: library, body: content)
+            } catch {
+                Log.warning("Failed to read from disk \(name).\nError: \(error)")
+                return nil
+            }
+        }
+    }
 }

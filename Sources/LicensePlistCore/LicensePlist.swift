@@ -46,7 +46,11 @@ public final class LicensePlist {
             print("🕸 oooops")
         }
         if options.isUsedByBuildTool {
-            info.readCheckoutLicenses()
+            if let checkoutPath = options.packageCheckoutPath {
+                info.readCheckedOutLicenses(from: checkoutPath)
+            } else {
+                // TODO: Implement failure
+            }
         } else {
             info.downloadGitHubLicenses()
         }
