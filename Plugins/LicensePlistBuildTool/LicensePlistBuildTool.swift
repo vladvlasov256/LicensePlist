@@ -115,7 +115,7 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
 //                                     ],
 //                          outputFiles: [outputDirectoryPath])
                         .prebuildCommand(displayName: "LicensePlist is processing licenses...",
-                                         executable: tool.path,
+                                         executable: Path("/Users/vlad/misc/github/LicensePlist-Package 2023-02-12 12-50-51/Products/usr/local/bin/license-plist"), //tool.path,
                                          arguments: ["--build-tool",
                                                      "--package-checkout-path", checkoutDirectoryPath.string,
                                                      "--output-path", outputDirectoryPath
