@@ -46,17 +46,17 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
 //        context.xcodeProject.directory
         
         let fileManager = FileManager.default
-        let projectDirectoryItems = try fileManager.contentsOfDirectory(atPath: context.xcodeProject.directory.string)
-        guard let workspacePath = projectDirectoryItems.first(where: { $0.hasSuffix(".xcworkspace") }) else {
-            throw LicensePlistBuildToolError.workspaceNotFound
-        }
+//        let projectDirectoryItems = try fileManager.contentsOfDirectory(atPath: context.xcodeProject.directory.string)
+//        guard let workspacePath = projectDirectoryItems.first(where: { $0.hasSuffix(".xcworkspace") }) else {
+//            throw LicensePlistBuildToolError.workspaceNotFound
+//        }
         
-        let resolvedPath = Path(fileManager.currentDirectoryPath)
-            .appending(subpath: workspacePath)
-            .appending(subpath: "xcshareddata/swiftpm/Package.resolved")
-        guard fileManager.fileExists(atPath: resolvedPath.string) else {
-            throw LicensePlistBuildToolError.packageResolvedFileNotFound
-        }
+//        let resolvedPath = Path(fileManager.currentDirectoryPath)
+//            .appending(subpath: workspacePath)
+//            .appending(subpath: "xcshareddata/swiftpm/Package.resolved")
+//        guard fileManager.fileExists(atPath: resolvedPath.string) else {
+//            throw LicensePlistBuildToolError.packageResolvedFileNotFound
+//        }
         
 //        target.product
         
@@ -97,7 +97,7 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
             .buildCommand(displayName: "LicensePlist is processing licenses...",
                           executable: tool.path,
                           arguments: ["--build-tool",
-                                      "--package-path", resolvedPath,
+//                                      "--package-path", resolvedPath,
                                       "--package-checkout-path", checkoutDirectoryPath.string,
                                       "--output-path", resourcesDirectoryPath
                                      ],

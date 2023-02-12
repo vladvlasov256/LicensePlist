@@ -36,7 +36,7 @@ extension ManualLicense {
             Log.info("license reading from disk start(owner: \(owner), name: \(name))")
             
             // Check several variants of license file name
-            for fileName in ["LICENSE", "LICENSE.txt"] {
+            for fileName in ["LICENSE", "LICENSE.txt", "LICENSE.md"] {
                 do {
                     let url = checkoutPath.appendingPathComponent(name).appendingPathComponent(fileName)
                     let content = try String(contentsOf: url)
