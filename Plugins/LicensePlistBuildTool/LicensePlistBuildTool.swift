@@ -45,21 +45,17 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
 //        context.xcodeProject.directory
         
         let fileManager = FileManager.default
-//        let projectDirectoryItems = try fileManager.contentsOfDirectory(atPath: context.xcodeProject.directory.string)
-//        guard let workspacePath = projectDirectoryItems.first(where: { $0.hasSuffix(".xcworkspace") }) else {
-//            throw LicensePlistBuildToolError.workspaceNotFound
-//        }
+        let projectDirectoryItems = try fileManager.contentsOfDirectory(atPath: context.xcodeProject.directory.string)
+        guard let workspacePath = projectDirectoryItems.first(where: { $0.hasSuffix(".xcworkspace") }) else {
+            throw LicensePlistBuildToolError.workspaceNotFound
+        }
         
-//        let resolvedPath = Path(fileManager.currentDirectoryPath)
-//            .appending(subpath: workspacePath)
-//            .appending(subpath: "xcshareddata/swiftpm/Package.resolved")
-//        guard fileManager.fileExists(atPath: resolvedPath.string) else {
-//            throw LicensePlistBuildToolError.packageResolvedFileNotFound
-//        }
-        
-//        target.product
-        
-//        /Users/vlad/misc/github/BasicApp/BasicApp.xcworkspace/xcshareddata/swiftpm/Package.resolved
+        let resolvedPath = Path(fileManager.currentDirectoryPath)
+            .appending(subpath: workspacePath)
+            .appending(subpath: "xcshareddata/swiftpm/Package.resolved")
+        guard fileManager.fileExists(atPath: resolvedPath.string) else {
+            throw LicensePlistBuildToolError.packageResolvedFileNotFound
+        }
         
 //        let xcodeprojPackageResolvedPath = validatedPath
 //            .appendingPathComponent("project.xcworkspace")
@@ -117,6 +113,7 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
                         .prebuildCommand(displayName: "LicensePlist is processing licenses...",
                                          executable: Path("/Users/vlad/misc/github/LicensePlist-Package 2023-02-12 12-50-51/Products/usr/local/bin/license-plist"), //tool.path,
                                          arguments: ["--build-tool",
+                                                     "--package-path", resolvedPath,
                                                      "--package-checkout-path", checkoutDirectoryPath.string,
                                                      "--output-path", outputDirectoryPath
                                                     ],
