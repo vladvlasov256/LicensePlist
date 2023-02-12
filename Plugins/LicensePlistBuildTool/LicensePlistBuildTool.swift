@@ -85,12 +85,18 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
             .appending(subpath: target.displayName)
             .appending(subpath: "Resources/Settings123.bundle")
         
+        
         try fileManager.createDirectory(atPath: outputDirectoryPath.string, withIntermediateDirectories: true)
-        let latestResultPath = outputDirectoryPath.appending(subpath: "Acknowledgements.latest_result.txt")
+        
+        try fileManager.contentsOfDirectory(atPath: outputDirectoryPath.string).forEach { item in
+            let path = outputDirectoryPath.appending(subpath: item)
+            try fileManager.removeItem(atPath: path.string)
+        }
         
         // TODO: Use prefix: "\(options.prefix).latest_result.txt"
         let originalOutputPath = context.xcodeProject.directory.appending(subpath: "Resources/Settings.bundle")
         let originLatestResultPath = originalOutputPath.appending(subpath: "Acknowledgements.latest_result.txt")
+        let latestResultPath = outputDirectoryPath.appending(subpath: "Acknowledgements.latest_result.txt")
         if fileManager.fileExists(atPath: originLatestResultPath.string) {
             try fileManager.copyItem(atPath: originLatestResultPath.string, toPath: latestResultPath.string)
         }
