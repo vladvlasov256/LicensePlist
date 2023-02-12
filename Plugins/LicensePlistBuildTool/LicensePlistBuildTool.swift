@@ -71,7 +71,7 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
 //            .appendingPathComponent("Package.resolved")
         
 //        let projDir = context.xcodeProject.directory
-//        let configPath = projDir.appending(subpath: "license_plist.yml")
+        let configPath = context.xcodeProject.directory.appending(subpath: "license_plist.yml")
 //        let data = try Data(contentsOf: URL(fileURLWithPath: configPath.string))
 //        print("🐶 \(String(data: data, encoding: .utf8) ?? "")")
         
@@ -113,6 +113,7 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
                         .prebuildCommand(displayName: "LicensePlist is processing licenses...",
                                          executable: Path("/Users/vlad/misc/github/LicensePlist-Package 2023-02-12 12-50-51/Products/usr/local/bin/license-plist"), //tool.path,
                                          arguments: ["--build-tool",
+                                                     "--config-path", configPath,
                                                      "--package-path", resolvedPath,
                                                      "--package-checkout-path", checkoutDirectoryPath.string,
                                                      "--output-path", outputDirectoryPath
