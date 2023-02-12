@@ -34,14 +34,13 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
     func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
         let tool = try context.tool(named: "LicensePlist")
         
-        // !!!
         let checkoutDirectoryPath = context.pluginWorkDirectory
             .removingLastComponent()
             .removingLastComponent()
             .removingLastComponent()
             .removingLastComponent()
             .appending(subpath: "checkouts")
-        print("🐶 \(try FileManager.default.contentsOfDirectory(atPath: checkoutDirectoryPath.string))")
+//        print("🐶 \(try FileManager.default.contentsOfDirectory(atPath: checkoutDirectoryPath.string))")
         
 //        context.xcodeProject.directory
         
@@ -80,26 +79,33 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
 //        let data = try Data(contentsOf: URL(fileURLWithPath: configPath.string))
 //        print("🐶 \(String(data: data, encoding: .utf8) ?? "")")
         
-        // TODO: Find file path
-        let resourcesDirectoryPath = context.pluginWorkDirectory
+        // TODO: Check whether or not it's correct to use displayName here
+        // TODO: Get output path from the config
+        let outputDirectoryPath = context.pluginWorkDirectory
             .appending(subpath: target.displayName)
-            .appending(subpath: "Resources")
+            .appending(subpath: "Resources/Settings123.bundle")
         
-        try fileManager.createDirectory(atPath: resourcesDirectoryPath.string, withIntermediateDirectories: true)
+        try fileManager.createDirectory(atPath: outputDirectoryPath.string, withIntermediateDirectories: true)
+        let latestResultPath = outputDirectoryPath.appending(subpath: "Acknowledgements.latest_result.txt")
         
-        let plistPath = resourcesDirectoryPath.appending(subpath: "Acknowledgements.plist")
-        let latestResultPath = resourcesDirectoryPath.appending(subpath: "Acknowledgements.latest_result.txt")
+        let originLatestResultPath = context.xcodeProject.directory.appending(subpath: "Acknowledgements.latest_result.txt")
+        if fileManager.fileExists(atPath: originLatestResultPath.string) {
+            try fileManager.copyItem(atPath: originLatestResultPath.string, toPath: latestResultPath.string)
+        }
         
-        // TODO: add warnings
+        // TODO: add warnings for '--build-tool' usage (like no checkout path, etc.)
+        // TODO: filter target dependencies
         
-        // TODO: specify package path
+        
+        let plistPath = outputDirectoryPath.appending(subpath: "Acknowledgements.plist")
+        
         return [
             .buildCommand(displayName: "LicensePlist is processing licenses...",
                           executable: tool.path,
                           arguments: ["--build-tool",
 //                                      "--package-path", resolvedPath,
                                       "--package-checkout-path", checkoutDirectoryPath.string,
-                                      "--output-path", resourcesDirectoryPath
+                                      "--output-path", outputDirectoryPath
                                      ],
                           outputFiles: [plistPath, latestResultPath])
             //            .prebuildCommand(displayName: "LicensePlist is processing licenses...",
