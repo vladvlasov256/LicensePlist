@@ -17,7 +17,8 @@ enum LicensePlistBuildToolError: Error {
 #if canImport(XcodeProjectPlugin)
 import XcodeProjectPlugin
 
-extension LicensePlistBuildTool: XcodeBuildToolPlugin {
+@main
+struct LicensePlistBuildTool: XcodeBuildToolPlugin {
     func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
         // The folder with checked out package sources
         let checkoutDirectoryPath = context.pluginWorkDirectory
@@ -54,7 +55,7 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         
         return [
             .prebuildCommand(displayName: "LicensePlist is processing licenses...",
-                             executable: try context.tool(named: "LicensePlist"),
+                             executable: try context.tool(named: "LicensePlist").path,
                              arguments: ["--build-tool",
                                          "--config-path", configPath,
                                          "--package-path", packageResolvedPath,
