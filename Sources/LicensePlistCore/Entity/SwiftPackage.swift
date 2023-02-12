@@ -7,8 +7,6 @@
 
 import Foundation
 
-import LoggerAPI // !!! debug
-
 public struct SwiftPackage: Equatable {
     let package: String
     let repositoryURL: String
@@ -71,7 +69,7 @@ extension SwiftPackage {
         }
     }
 
-    func toGitHub(renames: [String: String], checkoutPath: URL?) -> GitHub? {
+    func toGitHub(renames: [String: String], checkoutPath: URL? = nil) -> GitHub? {
         guard repositoryURL.contains("github.com") else { return nil }
 
         let urlParts = repositoryURL

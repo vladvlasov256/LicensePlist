@@ -79,30 +79,13 @@ struct PlistInfo {
         summary = contents
         summaryPath = savePath
     }
-
-    mutating func downloadGitHubLicenses() {
-        guard let githubLibraries = githubLibraries else { preconditionFailure() }
-
-        let queue = OperationQueue()
-        queue.maxConcurrentOperationCount = 10
-        let carthageOperations = githubLibraries.map { GitHubLicense.download($0) }
-        queue.addOperations(carthageOperations, waitUntilFinished: true)
-        githubLicenses = carthageOperations.map { operation in
-            switch operation.result {
-            case let .success(value):
-                return value
-            default:
-                return nil
-            }
-        }.compactMap { $0 }
-    }
     
-    mutating func readCheckedOutLicenses(from checkoutPath: URL) {
-        guard let githubLibraries = githubLibraries else { preconditionFailure() }
-        let licenses = ManualLicense.readFromDisk(githubLibraries, checkoutPath: checkoutPath)
-        let manualLicenses = manualLicenses ?? []
-        self.manualLicenses = (manualLicenses + licenses).sorted()
-        self.githubLicenses = []
+    mutating func loadGitHubLicenses() {
+        if options.isUsedByBuildTool {
+            readCheckedOutLicenses()
+        } else {
+            downloadGitHubLicenses()
+        }
     }
 
     mutating func collectLicenseInfos() {
@@ -172,5 +155,28 @@ struct PlistInfo {
         } catch let e {
             Log.error("Failed to save summary. Error: \(String(describing: e))")
         }
+    }
+    
+    private mutating func downloadGitHubLicenses() {
+        guard let githubLibraries = githubLibraries else { preconditionFailure() }
+
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 10
+        let carthageOperations = githubLibraries.map { GitHubLicense.download($0) }
+        queue.addOperations(carthageOperations, waitUntilFinished: true)
+        githubLicenses = carthageOperations.map { operation in
+            switch operation.result {
+            case let .success(value):
+                return value
+            default:
+                return nil
+            }
+        }.compactMap { $0 }
+    }
+    
+    private mutating func readCheckedOutLicenses() {
+        guard let githubLibraries = githubLibraries else { preconditionFailure() }
+        guard let checkoutPath = options.packageCheckoutPath else { preconditionFailure() }
+        githubLicenses = GitHubLicense.readFromDisk(githubLibraries, checkoutPath: checkoutPath)
     }
 }

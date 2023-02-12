@@ -75,7 +75,6 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
 //        let data = try Data(contentsOf: URL(fileURLWithPath: configPath.string))
 //        print("🐶 \(String(data: data, encoding: .utf8) ?? "")")
         
-        // TODO: Check whether or not it's correct to use displayName here
         // TODO: Get output path from the config
         let outputDirectoryPath = context.pluginWorkDirectory.appending(subpath: "Acknowledgements")
         
