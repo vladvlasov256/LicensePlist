@@ -49,6 +49,7 @@ public final class LicensePlist {
         info.collectLicenseInfos()
         info.outputPlist()
         Log.info("End")
+        return; // !!! debug
         info.reportMissings()
         info.finish()
         if !options.config.suppressOpeningDirectory {
